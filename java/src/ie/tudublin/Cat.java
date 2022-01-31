@@ -15,6 +15,7 @@ public class Cat extends Animal
         this.numLives = 9;
     }
 
+    //Method to kill your homie cat ! sadface
     public void kill()
     {
         numLives = getNumLives();
