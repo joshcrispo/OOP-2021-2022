@@ -2,95 +2,121 @@ package ie.tudublin;
 
 import processing.core.PApplet;
 
-public class BugZap extends PApplet{
+public class BugZap extends PApplet
+{
+	float playerX, playerY, playerWidth;
 
-    public void settings()
+	float bugX, bugY, bugWidth;
+
+	public void settings()
 	{
-        size(500, 500);
+		size(500, 500);
 	}
 
-	public void setup() 
-    {
-        colorMode(RGB);
-		background(0);
-        
-        playerX = 250;
-        playerY = 450;
-        playerWidth = 50;
-        bugX = 250;
-        bugY = 450;
-        bugWidth = 50;
+	public void setup() {
+		colorMode(RGB);
+
+		smooth();
+
+		playerX = width / 2;
+		playerY = height - 50;
+		playerWidth = 50;
+	
+		resetBug();
+		
 	}
 
-    float playerX, playerY, playerWidth;
-    float bugX, bugY, bugWidth;
+	private void resetBug() {
+		bugX = random(bugWidth / 2, width - (bugWidth / 2));
+		bugY = 50;
+		bugWidth = 50;
+	}
 
-    public void keyPressed()
+	void drawBug(float x, float y, float w)
+	{
+		float halfW = w / 2;
+		stroke(255);
+		noFill();
+		triangle(x - halfW, y + halfW, x, y - halfW, x + halfW, y + halfW);
+	}
+
+	void drawPlayer(float x, float y, float w)
+	{
+		stroke(255);
+		noFill();
+		rectMode(CENTER);
+		rect(x, y, w, 20);
+		line(x, y - 10, x, y - 20);
+	}
+
+	float playerSpeed = 5;
+
+	public void keyPressed()
 	{
 		if (keyCode == LEFT)
 		{
-			System.out.println("Left arrow pressed");
-            if (playerX == 30)
+			if (playerX == 30)
             {
             }
             else
             {
-                playerX -= 10;
+                playerX -= playerSpeed;
             }
-
 		}
 		if (keyCode == RIGHT)
 		{
-			System.out.println("Right arrow pressed");
-            if (playerX == 470)
-            {
+			if (playerX == 470)
+			{
 
-            }
-            else
-            {
-            playerX += 10;
-            }
+			}
+			else
+			{
+				playerX += playerSpeed;
+			}
 		}
+
 		if (key == ' ')
 		{
-			System.out.println("SPACE key pressed");
-            drawLaser(playerX, playerY);
+			float halfW = bugWidth / 2;
+			if (playerX > bugX - halfW && playerX < bugX + halfW)
+			{
+				score ++;
+				resetBug();
+				line(playerX, playerY- 10, playerX, bugY);
+			}
+			else
+			{
+				line(playerX, playerY- 10, playerX, 0);
+			}
 		}
-	}	
-
-    public void drawLaser(float x, float y)
-    {
-        line(x, 0, x, y-50);
-        line(x+100, 0, x, y-50);
-        line(x-100, 0, x, y-50);
-    }
-
-    public void drawPlayer(float x, float y, float w)
-    {
-        stroke(255,0,0);
-        fill(0,0,0);
-        circle(x,y,50);
-        line(x, y-25, x, y-50);
-        line(x-26, y-6, x, y-50);
-        line(x+26, y-6, x, y-50);
-    }
-
-    public void drawBug(float x, float y, float w)
-    {
-        stroke(255,0,0);
-        fill(0,0,0);
-        ellipse(x, y-400, w-20, w-5);
-        line(x, y-378, x-10, y-370);
-        line(x, y-378, x+10, y-370);
-        line(x, y-378, x, y-422);
-        
-    }
-
-	public void draw()
-	{	
-        background(0);
-        drawPlayer(playerX, playerY, playerWidth);
-        drawBug(bugX, bugY, bugWidth);
+		
 	}
-    
+
+	int score = 0;
+
+	void moveBug()
+	{
+		if (bugX == 30 || bugX == 470)
+		{
+			bugX = random(bugWidth / 2, width - (bugWidth / 2));
+			bugY ++;
+		}
+		else
+		{
+		bugY ++;
+		bugX += random(-20, 20);
+		}
+	}
+
+	
+	public void draw()
+	{	background(0);
+		strokeWeight(2);
+		drawPlayer(playerX, playerY, playerWidth);
+		drawBug(bugX, bugY, bugWidth);
+		if (frameCount % 20 == 0)
+			moveBug();
+
+		text("Score: " + score, 50, 50);
+	}
 }
