@@ -147,6 +147,10 @@ public class Loops extends PApplet
 					rectHue -= 20;
 				}
 				break;
+			case 7:
+				background(0);
+				colorMode(HSB);
+				
 		}	
 	}
 }
