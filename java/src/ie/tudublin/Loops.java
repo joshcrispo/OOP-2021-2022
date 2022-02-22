@@ -15,7 +15,7 @@ public class Loops extends PApplet
 	}
 
 	public void setup() {
-		colorMode(RGB);
+		colorMode(HSB);
 	}
 
 	public void keyPressed()
@@ -30,127 +30,99 @@ public class Loops extends PApplet
 	
 	public void draw()
 	{
-		int rectHue;
-		int circleW;
-		int circleH;
 
 		switch(mode)	
 		{
 			case 0:
-				if (mouseX >= rectX + 50)
-				{
-					rectX += 50;
-				}
-				else if (mouseX <= rectX - 50)
-				{
-					rectX -= 50;
-				}	
 				background(0);
-				rectMode(CENTER);
-				rect(rectX, rectY, 150, 500);
-				fill(93, 173, 226);
-				noStroke();
+				int bars = (int) mouseX/50; //change variable width to mouseX if you want to make it interactive
+				float w = width / (float) bars; 
+				for (int i = 0; i<bars; i++)
+				{
+					noStroke();
+					float x = map(i,0,bars,0,width);
+					float c = map(i, 0, bars, 0, 255);
+					fill (c, 255, 255);
+					rect(x,width, w, -width);
+				}
 				break;
 			case 1:
-				if (mouseY >= rectY + 50)
-				{
-					rectY += 50;
-					rectX += 50;
-				}
-				else if(mouseY <= rectY -50)
-				{
-					rectY -= 50;
-				}
-
 				background(0);
-				rectMode(CENTER);
-				rect(mouseX, rectY, 150, 150);
-				fill(93, 173, 226);
-				noStroke();
+				int squares = (int) width/50; 
+				float w1 = width/ (float)squares;
+				for( int i = 0; i < squares; i++)
+				{
+					noStroke();
+					float x = map(i, 0, squares, 0, width);
+					float c = map(i, 0, squares, 0, 255);
+					fill (c, 255,255);
+					rect(x,x, w1, w1);
+					rect((width-w1) - x,x, w1, w1);
+				}
 				break;
 			case 2:
-				if (mouseX <= 150 || mouseX >=350 || mouseY <= 175 || mouseY > 325)
+				background(0);
+				int circles = (int) width/50;
+				float dia = width/ (float)circles;
+				for(int i = 0;i < circles; i++)
 				{
-					background(0);
-					rectMode(CENTER);
-					rect(250, 250, 200, 150);
-					fill(93, 173, 226);
-				}
-				else
-				{
-					background(0);
-					rectMode(CENTER);
-					rect(250, 250, 200, 150);
-					fill(192, 57, 43);
+					noStroke();
+					float x = map(i,0,circles,0,width);
+					float c = map(i,0,circles,0,255);
+					ellipse(width/2, width/2, width-x, width-x);
+					colorMode(HSB);
+					fill(c,255,255);
 				}
 				break;
 			case 3:
-					background(0);
-					
-					colorMode(HSB);
-					rectHue = 0;
-
-					for(rectX=-50;rectX<500;rectX+=50)
+				background(0);
+				int circles1 = (int) width/50;
+				for(int i = 0; i<circles1;i++)
+				{
+					for(int j = 0; j<circles1;j++)
 					{
-						fill(rectHue,255,255);
-						rectHue += 18;
-						rectMode(CENTER);
-						rect(rectX+25, 250, 50, 500);
+						noStroke();
+						float x = map(j,0,circles1,0,width);
+						float h = map(i,0,circles1,0,width);
+						ellipse(x+(50/2), h+(50/2), 50, 50);
+						float c = map(i,0,circles1,0,255);
+						colorMode(HSB);
+						fill(c,255,255);
 					}
-					break;
+				}
+				break;
 			case 4:
-					background(0);
-					colorMode(HSB);
-					rectX = 25;
-					rectY = 25;
-					rectHue = 0;
-					while (rectX<500 && rectY<500)
-					{
-						fill(rectHue,255,255);
-						rectMode(CENTER);
-						rect(rectX, rectY, 50, 50);
-						rectX += 50;
-						rectY += 50;
-						rectHue += 25;
-					}
-					break;
-			case 5:
 				background(0);
-				colorMode(HSB);
-				rectX = 25;
-				rectY = 25;
-				float rectX2 = 475;
-				float rectY2 = 25;
-				rectHue = 0;
-				while (rectX<500 && rectY<500 && rectX2>0)
-				{
-					fill(rectHue,255,255);
-					rectMode(CENTER);
-					rect(rectX, rectY, 50, 50);
-					rectX += 50;
-					rectY += 50;
-					rect(rectX2, rectY2, 50, 50);
-					rectX2 -= 50;
-					rectY2 += 50;
-					rectHue += 25;
-				}
-				break;
-			case 6:
-				background(0);
-				colorMode(HSB);
-				rectHue = 200;
+				int squares1 = (int) width/50;
+				float w2 = width/(float)squares1;
+				String xaxis[]= {"-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", "4", "5"};
+				int yaxis= -5;
+				colorMode(RGB);
 
-				for(circleW = 500; circleW>0; circleW-= 50)
+				for(int i = 0; i < squares1; i++)
 				{
-					ellipse(250, 250, circleW, circleW);
-					fill(rectHue, 255, 255);
-					rectHue -= 20;
+					for(int j = 0; j<squares1; j++)
+					{
+						float x = map(j,0,squares1,0,width);
+						float h = map(i,0,squares1,0,width);
+						rectMode(CENTER);
+						rect((x+25), (h+25), w2, w2);
+						stroke(255);
+
+						
+						
+					}
+					//textAlign(alignX);
 				}
-				break;
-			case 7:
-				background(0);
-				colorMode(HSB);
-				
+				for(int i = 0;i<squares1;i++)
+				{
+					float x = map(i,0,squares1,0,width);
+					textAlign(CENTER, CENTER);
+					fill(255,0,0);
+					text(xaxis[i], x, w2/2);
+				}
+				fill(0,0,0);
+
 		}	
 	}
 }
