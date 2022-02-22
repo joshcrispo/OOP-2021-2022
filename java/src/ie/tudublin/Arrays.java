@@ -4,7 +4,7 @@ import processing.core.PApplet;
 
 public class Arrays extends PApplet {
     
-    float[] rainfall = {45, 37, 55, 27, 38, 50, 79, 104, 31, 100, 58};
+    float[] rainfall = {45, 37, 55, 27, 38, 50, 79, 48, 104, 31, 100, 58};
 
     //float[] a1 = new float[100]; -> another way to initialise an array
     //float[] a2; -> null pointer error
@@ -23,7 +23,7 @@ public class Arrays extends PApplet {
     {
         for(int i = 0; i < rainfall.length; i ++)
         {
-            println(rainfall[1] + "\t" + months[i]);
+            println(rainfall[i] + "\t" + months[i]);
         }
         
         //Limitations only can go forwards never backwards, also can only be used with one array
@@ -42,7 +42,7 @@ public class Arrays extends PApplet {
         */
 
         //Decreasing
-        for (int i = rainfall.length - 1; i> 0 ; i --)
+        for (int i = rainfall.length - 1; i >= 0 ; i --)
         {
             println(rainfall[i] + "\t" + months[i]);
         }
@@ -53,6 +53,7 @@ public class Arrays extends PApplet {
         String maxMonth = months[0];
         float totalValue = rainfall[0];
         float avgValue = rainfall[0];
+
         for(int i = 1; i < rainfall.length; i++)
         {
             if (minValue > rainfall[i])
