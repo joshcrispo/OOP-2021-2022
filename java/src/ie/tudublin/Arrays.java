@@ -106,25 +106,21 @@ public class Arrays extends PApplet {
 
     }
     */
-    
-    //Bryans Solution:
         public void draw()
         {
             background(0);
             colorMode(HSB);
             noStroke();
-            float w = width/ (float)rainfall.length;
-            for(int i = 0; i < rainfall.length; i ++)
+            for(int i = 0; i < rainfall.length; i++)
             {
-                //float x = i * w;
                 float x = map(i, 0, rainfall.length, 0, width);
-                int c = (int)map(i ,0, rainfall.length, 0, 255);
+                float h = map(rainfall[i], 0, rainfall[maxIndex], 0, -width);
+                float c = map(i, 0, rainfall.length, 0, 255);
                 fill(c, 255, 255);
-                float h = map(rainfall[i], 0, rainfall[maxIndex], 0, -height);
-                rect(x, height, w, -rainfall[i]);
-                fill(255);
+                rect(x, 500, width/rainfall.length,h);
+                fill(40);
                 textAlign(CENTER, CENTER);
-                text(months[i], x+ (w/2), height - 50);
+                text(months[i], x + ((float)(width/rainfall.length)/2), height-50);
             }
         }
 }
