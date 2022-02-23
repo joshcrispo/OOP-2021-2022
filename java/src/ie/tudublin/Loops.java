@@ -48,7 +48,7 @@ public class Loops extends PApplet
 				break;
 			case 1:
 				background(0);
-				int squares = (int) width/50; 
+				int squares = (int) mouseX/50; 
 				float w1 = width/ (float)squares;
 				for( int i = 0; i < squares; i++)
 				{
