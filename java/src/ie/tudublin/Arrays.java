@@ -108,7 +108,7 @@ public class Arrays extends PApplet {
     }
     */
     
-    //Bryans Solution:
+    //Bryans Solution: (my solution in lab3_practice)
         public void draw()
         {
             background(0);
