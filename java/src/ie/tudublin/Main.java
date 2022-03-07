@@ -35,20 +35,11 @@ public class Main
     }
 
     public static void life()
-<<<<<<< HEAD
-=======
 	{
 		String[] a = {"MAIN"};
         processing.core.PApplet.runSketch( a, new Life());
     }
 
-
-    public static void audio1()
->>>>>>> 4ecfe9fa256b4d7ea5793db63aa8b2232324a707
-	{
-		String[] a = {"MAIN"};
-        processing.core.PApplet.runSketch( a, new Life());
-    }
 
     public void cat()
     {
