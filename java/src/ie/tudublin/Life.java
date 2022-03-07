@@ -3,6 +3,9 @@ package ie.tudublin;
 import processing.core.PApplet;
 
 public class Life extends PApplet {
+	
+	LifeBoard board;
+
 
 	LifeBoard board;
 
@@ -13,7 +16,7 @@ public class Life extends PApplet {
 	}
 
 	public void setup() {
-		colorMode(HSB);
+		colorMode(RGB);
 
 	}
 
