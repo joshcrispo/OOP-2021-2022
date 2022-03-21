@@ -36,7 +36,7 @@ public class Audio1 extends PApplet
 
     public void settings()
     {
-        size(1024, 1000, P3D);
+        size(1024, 1000);
         //fullScreen(P3D, SPAN);
     }
 
@@ -50,6 +50,7 @@ public class Audio1 extends PApplet
         ap.play();
         ab = ap.mix;
         colorMode(HSB);
+
 
         y = height / 2;
         smoothedY = y;
