@@ -12,6 +12,12 @@ public class Star
     private float zG;
     private float absMag;
 
+    @Override
+    public String toString() {
+        return "Star [absMag=" + absMag + ", displayName=" + displayName + ", distance=" + distance + ", hab=" + hab
+                + ", xG=" + xG + ", yG=" + yG + ", zG=" + zG + "]";
+    }
+
     public Star(TableRow tr)
     {
         this(
@@ -24,7 +30,8 @@ public class Star
             tr.getFloat("AbsMag")
         );
     }
-
+    
+    
 
     public Star(boolean hab, String displayName, float distance, float xG, float yG, float zG, float absMag) {
         this.hab = hab;
