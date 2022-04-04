@@ -1,7 +1,7 @@
 package ie.tudublin;
 
-import processing.data.TableRow;
 import processing.core.PApplet;
+import processing.data.TableRow;
 
 public class Star
 {
@@ -13,7 +13,7 @@ public class Star
     private float zG;
     private float absMag;
 
-    PApplet pa;
+    
 
     @Override
     public String toString() {
@@ -21,7 +21,7 @@ public class Star
                 + ", xG=" + xG + ", yG=" + yG + ", zG=" + zG + "]";
     }
 
-    public Star(TableRow tr, PApplet pa)
+    public Star(TableRow tr)
     {
         this(
             tr.getInt("Hab?") == 1, 
@@ -32,11 +32,8 @@ public class Star
             tr.getFloat("Zg"),
             tr.getFloat("AbsMag")
         );
-        this.pa;
     }
     
-    
-
     public Star(boolean hab, String displayName, float distance, float xG, float yG, float zG, float absMag) {
         this.hab = hab;
         this.displayName = displayName;
@@ -90,11 +87,21 @@ public class Star
         this.absMag = absMag;
     }
 
-   public void render(StarMap pa)
+    public void render(StarMap pa)
     {
-        float x = map(this.xG,-5,5);
-        float y =
+        float x = PApplet.map(xG, -5, 5, pa.border, pa.width - pa.border);
+        float y = PApplet.map(yG, -5, 5, pa.border, pa.height - pa.border);
 
+        
+        pa.stroke(255, 255, 0);
+        pa.line(x, y -5, x, y + 5);
+        pa.line(x-5, y, x + 5, y);
+        pa.stroke(255, 0, 0);
+        pa.noFill();
+        pa.circle(x, y, absMag);
+        pa.fill(255);
+        pa.textSize(16);
+        pa.textAlign(PApplet.LEFT, PApplet.CENTER);
+        pa.text(displayName, x + 20, y);
     }
-    
 }
