@@ -17,6 +17,10 @@ public class YASC extends PApplet
         line(x, y, x - halfW, y + halfW);
     }
 
+    Player p;
+    Player p1;
+    Health h;
+
 
     public void setup()
     {
@@ -24,6 +28,9 @@ public class YASC extends PApplet
         y = height / 2;
         w = 100;
         halfW =  w/ 2.0f;
+        p = new Player(250, 250, 50, this);
+        p1 = new Player(50, 50, 100, this);
+        h = new Health(50, this);
     }
 
     public void settings()
@@ -34,7 +41,13 @@ public class YASC extends PApplet
     public void draw()
     {
         background(0);
+        p.update();        
+        p.render();
+        
+        p1.update();
+        p1.render();
 
-        drawPlayer(x, y, w);
+        h.update();
+        h.render();
     }    
 }
