@@ -14,10 +14,10 @@ public class Health
     public Health(float w, YASC yasc)
     {
 
-        this.x = -50;
-        this.y = yasc.random(yasc.height);
-        this.w = w;
-        this.fx = 1;
+        this.x = -50; 
+        this.y = yasc.random(yasc.height); //Random start point in the Y- axis
+        this.w = w; //width of the square
+        this.fx = 1; 
         this.fy = yasc.random(-1, 1);
         halfW = w / 2.0f;
         this.yasc = yasc;
@@ -41,24 +41,7 @@ public class Health
         x += fx;
         y += fy;
         rotation += 0.01f;
-        if (x > yasc.width + w)
-        {
-            x = -w;
-        } 
-
-        if (x < -w)
-        {
-            x = yasc.width + w;;
-        } 
-
-        if (y < -w)
-        {
-            y = yasc.height + w;
-        }
-        if (y > yasc.height + w)
-        {
-            y = -w;
-        }
     }
+    
 
 }
