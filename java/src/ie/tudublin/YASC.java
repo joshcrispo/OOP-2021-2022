@@ -11,10 +11,10 @@ public class YASC extends PApplet
     void drawPlayer(float x, float y, float w)
     {
         stroke(255);
-        line(x-halfW, y + halfW, x, y - halfW);
-        line(x, y - halfW, x + halfW, y + halfW);
-        line(x + halfW, y + halfW, x, y);
-        line(x, y, x - halfW, y + halfW);
+        line(x-halfW, y + halfW, x, y - halfW); // Bigger Left side -> basically this / first point is the bottom left
+        line(x, y - halfW, x + halfW, y + halfW); // Bigger Rigth side -> basically \ first point is the top
+        line(x + halfW, y + halfW, x, y); // Smaller Right side -> \ first point is bottom right
+        line(x, y, x - halfW, y + halfW); // Smaller Left side -> / first point is center point
     }
 
     Player p;
@@ -27,11 +27,11 @@ public class YASC extends PApplet
         x = width / 2;
         y = height / 2;
         w = 100;
-        halfW =  w/ 2.0f;
+        halfW =  w / 2.0f;
         p = new Player(250, 250, 50, this);
         p1 = new Player(50, 50, 100, this);
         h = new Health(50, this);
-    }
+    } 
 
     public void settings()
     {
