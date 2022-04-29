@@ -8,6 +8,12 @@ public class Main
         processing.core.PApplet.runSketch( a, new HelloProcessing());
     }
 
+    public static void starMap()
+	{
+		String[] a = {"MAIN"};
+        processing.core.PApplet.runSketch( a, new StarMap());
+    }
+
     public void cat()
     {
         System.out.println("Hello world");
@@ -32,7 +38,7 @@ public class Main
     }
     public static void main(String[] args)
     {
-        helloProcessing();
+        starMap();
 
         // Tara Misty
         // Tara Tara
