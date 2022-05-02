@@ -46,7 +46,7 @@ public class Audio1 extends PApplet
         // Uncomment this to use the microphone
         // ai = minim.getLineIn(Minim.MONO, width, 44100, 16);
         // ab = ai.mix; 
-        ap = minim.loadFile("jayZkanye.mp3", 1024);
+        ap = minim.loadFile("heroplanet.mp3", 1024);
         ap.play();
         ab = ap.mix;
         colorMode(HSB);
@@ -163,7 +163,6 @@ public class Audio1 extends PApplet
         fill(100, 255, 255);        
         
         circle(width / 2, halfH, lerpedA * 100);
-
         circle(100, y, 50);
         y += random(-10, 10);
         smoothedY = lerp(smoothedY, y, 0.1f);        
