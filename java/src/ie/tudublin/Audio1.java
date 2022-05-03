@@ -1,5 +1,7 @@
 package ie.tudublin;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import ddf.minim.AudioBuffer;
 import ddf.minim.AudioInput;
 import ddf.minim.AudioPlayer;
@@ -12,13 +14,13 @@ public class Audio1 extends PApplet
     AudioPlayer ap;
     AudioInput ai;
     AudioBuffer ab;
-
+    int count = 0;
+    boolean dance = false;
+    
     int mode = 0;
 
     float[] lerpedBuffer;
     float y = 0;
-    float smoothedY = 0;
-    float smoothedAmplitude = 0;
 
     public void keyPressed() {
 		if (key >= '0' && key <= '9') {
@@ -36,8 +38,7 @@ public class Audio1 extends PApplet
 
     public void settings()
     {
-        //size(1024, 1000, P3D);
-        fullScreen(P3D, SPAN);
+        size(1024, 1000);
     }
 
     public void setup()
@@ -46,13 +47,12 @@ public class Audio1 extends PApplet
         // Uncomment this to use the microphone
         // ai = minim.getLineIn(Minim.MONO, width, 44100, 16);
         // ab = ai.mix; 
-        ap = minim.loadFile("heroplanet.mp3", 1024);
+        ap = minim.loadFile("jayZkanye.mp3", 1024);
         ap.play();
         ab = ap.mix;
         colorMode(HSB);
 
         y = height / 2;
-        smoothedY = y;
 
         lerpedBuffer = new float[width];
     }
@@ -74,100 +74,247 @@ public class Audio1 extends PApplet
             lerpedBuffer[i] = lerp(lerpedBuffer[i], ab.get(i), 0.05f);
         }
         average= sum / (float) ab.size();
-
-        smoothedAmplitude = lerp(smoothedAmplitude, average, 0.1f);
         
         float cx = width / 2;
         float cy = height / 2;
+        float stageEdgeLeft = cx/2;
+        float stageEdgeRight = cx*1.5f;
 
+ 
         switch (mode) {
-			case 0:
-                background(0);
-                for(int i = 0 ; i < ab.size() ; i ++)
-                {
-                    //float c = map(ab.get(i), -1, 1, 0, 255);
-                    float c = map(i, 0, ab.size(), 0, 255);
-                    stroke(c, 255, 255);
-                    float f = lerpedBuffer[i] * halfH * 4.0f;
-                    line(i, halfH + f, i, halfH - f);                    
-                }
-                break;
-        case 1:
+			
+        case 0: 
             background(0);
-            for(int i = 0 ; i < ab.size() ; i ++)
+            stroke(255);
+            //rectangle stage 
+            rectMode(CENTER);
+            rect(cx, cy-100,cx+10, cx/4); 
+            //robots
+            //robot 1
+            textMode(CENTER);
+            textSize(25); 
+            text("NO",(cx/1.5f-16), cy/2+5);
+            rect(cx/1.5f, cy/2, cx/7, cx/8);
+            rect(cx/1.5f, cy/2, cx/9, cx/10);
+            arc(cx/1.5f, cy/2-32, cx/8, cx/6, PI, TWO_PI); 
+            arc(cx/1.5f-15, cy/2-50, cx/30, cx/30, 0, TWO_PI);
+            arc(cx/1.5f+15, cy/2-50, cx/30, cx/30, 0, TWO_PI);
+            arc(cx/1.5f-15, cy/2-50, cx/50, cx/50, 0, TWO_PI);
+            arc(cx/1.5f+15, cy/2-50, cx/50, cx/50, 0, TWO_PI);
+            //LEGS + SHOES  
+            line(cx/1.5f-20, cy/2+32, cx/1.5f-20 , cy/2+32+40 );
+            line(cx/1.5f-10, cy/2+32, cx/1.5f-10 , cy/2+32+53 );
+            line(cx/1.5f+20, cy/2+32, cx/1.5f+20 , cy/2+32+40 );
+            line(cx/1.5f+10, cy/2+32, cx/1.5f+10 , cy/2+32+53 ); 
+            arc(cx/1.5f-10, cy/2+32+53 , cx/8, cx/20, PI, PI+HALF_PI); 
+            arc(cx/1.5f+10, cy/2+32+53 , cx/8, cx/20, PI+HALF_PI, TWO_PI);   
+             
+             //Arm
+             arc(cx/1.5f-((cx/7)/2), cy/2+20 , cx/6, cx/6, PI, PI+HALF_PI); 
+             arc(cx/1.5f-((cx/7)/2), cy/2+20 , cx/7, cx/7, PI, PI+HALF_PI); 
+             arc(cx/1.5f+((cx/7)/2), cy/2+20-80 , cx/6, cx/6, 0, HALF_PI); 
+             arc(cx/1.5f+ ((cx/7)/2), cy/2+20-80 , cx/7, cx/7, 0, HALF_PI ); 
+             //Hands
+             arc(cx/1.5f-((cx/7+cx/6)/2)+2,cx/2+28, cx/20, cx/20, PI, TWO_PI );
+             arc(cx/1.5f+((cx/7+cx/6)/2)-2,cx/2-80, cx/20, cx/20, 0, PI ); 
+
+            /* Attempting to do timing for it to dance
+            //Arm
+            arc((cx/1.5f)-((cx/7)/2), cy/2+20-80 , cx/6, cx/6, HALF_PI, PI); 
+            arc((cx/1.5f)-((cx/7)/2), cy/2+20-80 , cx/7, cx/7, HALF_PI, PI); 
+            arc((cx/1.5f)+((cx/7)/2), cy/2+20 , cx/6, cx/6, PI+HALF_PI, TWO_PI);  
+            arc((cx/1.5f)+((cx/7)/2), cy/2+20 , cx/7, cx/7, PI+HALF_PI, TWO_PI); 
+            //Hands
+            arc((cx/1.5f)+((cx/7+cx/6)/2)-2,cx/2+28, cx/20, cx/20, PI, TWO_PI );
+            arc((cx/1.5f)-((cx/7+cx/6)/2)+2,cx/2-80, cx/20, cx/20, 0, PI );
+            */
+            
+
+            //robot 2
+            text("JAZZ",(cx/1.5f*2-27), cy/2+5);
+            rect((cx/1.5f*2), cy/2, cx/7, cx/8);
+            rect((cx/1.5f*2), cy/2, cx/9, cx/10);
+            arc(cx/1.5f*2, cy/2-32, cx/8, cx/6, PI, TWO_PI);
+            arc(cx/1.5f*2-15, cy/2-50, cx/30, cx/30, 0, TWO_PI);
+            arc(cx/1.5f*2+15, cy/2-50, cx/30, cx/30, 0, TWO_PI);
+            arc(cx/1.5f*2-15, cy/2-50, cx/50, cx/50, 0, TWO_PI);
+            arc(cx/1.5f*2+15, cy/2-50, cx/50, cx/50, 0, TWO_PI);
+            //LEGS + SHOES   
+            line((cx/1.5f*2)-20, cy/2+32, (cx/1.5f*2)-20, cy/2+32+40 );
+            line((cx/1.5f*2)-10, cy/2+32, (cx/1.5f*2)-10, cy/2+32+53 );
+            line((cx/1.5f*2)+20, cy/2+32, (cx/1.5f*2)+20, cy/2+32+40 );
+            line((cx/1.5f*2)+10, cy/2+32, (cx/1.5f*2)+10, cy/2+32+53 );
+            arc((cx/1.5f*2)-10, cy/2+32+53 , cx/8, cx/20, PI, PI+HALF_PI); 
+            arc((cx/1.5f*2)+10, cy/2+32+53 , cx/8, cx/20, PI+HALF_PI, TWO_PI); 
+            //ARMS
+            arc((cx/1.5f*2)-((cx/7)/2), cy/2+20-80 , cx/6, cx/6, HALF_PI, PI); 
+            arc((cx/1.5f*2)-((cx/7)/2), cy/2+20-80 , cx/7, cx/7, HALF_PI, PI); 
+            arc((cx/1.5f*2)+((cx/7)/2), cy/2+20 , cx/6, cx/6, PI+HALF_PI, TWO_PI); 
+            arc((cx/1.5f*2)+ ((cx/7)/2), cy/2+20 , cx/7, cx/7, PI+HALF_PI, TWO_PI); 
+            //Hands
+            arc((cx/1.5f*2)+((cx/7+cx/6)/2)-2,cx/2+28, cx/20, cx/20, PI, TWO_PI );
+            arc((cx/1.5f*2)-((cx/7+cx/6)/2)+2,cx/2-80, cx/20, cx/20, 0, PI );
+
+
+            //triangle eye
+            triangle(cx,cy/3,cx+50,cy/2,cx-50,cy/2);
+            arc(cx, cy/3+45, cx/12, cx/20, 0, TWO_PI); 
+            arc(cx, cy/3+45, cx/60, cx/36, 0, TWO_PI); 
+            //bowtie
+            triangle(cx,cy/3+65,cx+15,cy/2-15,cx+15,cy/2-25);
+            triangle(cx,cy/3+65,cx-15,cy/2-15,cx-15,cy/2-25);
+            //legs
+            line(cx-20, cy/2, cx-20, cy/2 +30);
+            line(cx-20, cy/2+30, cx-12, cy/2 +15);
+            line(cx-12, cy/2+15, cx-12, cy/2 +35);
+            //right leg
+            line(cx+20, cy/2, cx+20, cy/2 +30);
+            line(cx+20, cy/2+30, cx+12, cy/2 +15);
+            line(cx+12, cy/2+15, cx+12, cy/2 +35);
+            //arms
+            //left
+            arc(cx-40, cy/3+35, cx/12, cx/8, HALF_PI, PI); 
+            arc(cx+40, cy/3+35, cx/12, cx/8, 0, HALF_PI); 
+            //hat
+            beginShape();
+            vertex(cx-20, cy/3);
+            vertex(cx-20, cy/3-5);
+            vertex(cx-10, cy/3-5);
+            vertex(cx-10, cy/3-40);
+            vertex(cx+10, cy/3-40);
+            vertex(cx+10, cy/3-5);
+            vertex(cx+20, cy/3-5);
+            vertex(cx+20, cy/3);
+            vertex(cx-20, cy/3);
+            endShape();
+            
+            
+
+
+            //speakers
+            //speaker left
+            rectMode(CORNER);
+            rect(10, cy/5, 120, 365);
+            rect(130, cy/2+35, 120, 180);
+
+            rect(30, cy/2, 80, 180);
+
+            //speaker circle left
+            arc(68, cy/3, cx/15, cx/15, 0, TWO_PI); 
+            arc(68, cy/3, cx/10, cx/10, 0, TWO_PI);   
+            arc(68, cy/3, cx/8, cx/8, 0, TWO_PI);  
+            //speaker smaller circles left
+            //top
+            arc(68, cy/2+30+10, cx/20, cx/20, 0, TWO_PI); 
+            arc(68, cy/2+30+10, cx/15, cx/15, 0, TWO_PI);   
+            arc(68, cy/2+30+10, cx/12, cx/12, 0, TWO_PI);  
+            //middle    
+            arc(68, cy/2+30+50+10, cx/20, cx/20, 0, TWO_PI); 
+            arc(68, cy/2+30+50+10, cx/15, cx/15, 0, TWO_PI);   
+            arc(68, cy/2+30+50+10, cx/12, cx/12, 0, TWO_PI);    
+            //bottom
+            arc(68, cy/2+30+50+50+10, cx/20, cx/20, 0, TWO_PI); 
+            arc(68, cy/2+30+50+50+10, cx/15, cx/15, 0, TWO_PI);   
+            arc(68, cy/2+30+50+50+10, cx/12, cx/12, 0, TWO_PI); 
+            //left small speaker circle   
+
+            arc(190, cy/2+120, cx/15, cx/10, 0, TWO_PI); 
+            arc(190, cy/2+120, cx/10, cx/8, 0, TWO_PI);  
+            arc(190, cy/2+120, cx/8, cx/4, 0, TWO_PI);      
+
+            //speaker right
+            rect(width-130, cy/5, 120, 365);
+            rect(width-250, cy/2+35, 120, 180); 
+            rect(width-110, cy/2, 80, 180);
+
+            //speaker circle right
+            arc(954, cy/3, cx/15, cx/15, 0, TWO_PI); 
+            arc(954, cy/3, cx/10, cx/10, 0, TWO_PI);   
+            arc(954, cy/3, cx/8, cx/8, 0, TWO_PI); 
+            //speaker smaller circles left
+            //top
+            arc(954, cy/2+30+10, cx/20, cx/20, 0, TWO_PI); 
+            arc(954, cy/2+30+10, cx/15, cx/15, 0, TWO_PI);   
+            arc(954, cy/2+30+10, cx/12, cx/12, 0, TWO_PI);  
+            //middle    
+            arc(954, cy/2+30+50+10, cx/20, cx/20, 0, TWO_PI); 
+            arc(954, cy/2+30+50+10, cx/15, cx/15, 0, TWO_PI);   
+            arc(954, cy/2+30+50+10, cx/12, cx/12, 0, TWO_PI);    
+            //bottom
+            arc(954, cy/2+30+50+50+10, cx/20, cx/20, 0, TWO_PI); 
+            arc(954, cy/2+30+50+50+10, cx/15, cx/15, 0, TWO_PI);   
+            arc(954, cy/2+30+50+50+10, cx/12, cx/12, 0, TWO_PI);  
+            //right small speaker circle 
+            arc(width-190, cy/2+120, cx/15, cx/10, 0, TWO_PI); 
+            arc(width-190, cy/2+120, cx/10, cx/8, 0, TWO_PI);  
+            arc(width-190, cy/2+120, cx/8, cx/4, 0, TWO_PI);   
+             
+            //speaker effects
+            //left 
+            for(int i = 0 ; i < ab.size() ; i +=20)
+            {
+                noFill();
+                float c = map(i, 0, ab.size(), 0, 255);
+                stroke(c, 255, 255);
+                float f = lerpedBuffer[i] * halfH * 3.0f;
+                arc(68, cy/3, f, f, 0, TWO_PI);     
+
+            }
+            //right 
+            for(int i = 0 ; i < ab.size() ; i +=20)
+            {
+                noFill();
+                float c = map(i, 0, ab.size(), 0, 255);
+                stroke(c, 255, 255);
+                float f = lerpedBuffer[i] * halfH * 3.0f;
+                arc(954, cy/3, f, f, 0, TWO_PI);     
+
+            }
+            
+            //small speaker effect left
+            for(int i = 0 ; i < ab.size() ; i += 30)
+            {
+                noFill();
+                float c = map(i, 0, ab.size(), 0, 255);
+                stroke(c, 255, 255);
+                float f = lerpedBuffer[i] * halfH * 3.0f;
+                arc(190, cy/2+120, f, f, 0, TWO_PI);     
+
+            } 
+            //small speaker effect right
+            for(int i = 0 ; i < ab.size() ; i += 30)
+            {
+                noFill();
+                float c = map(i, 0, ab.size(), 0, 255);
+                stroke(c, 255, 255);
+                float f = lerpedBuffer[i] * halfH * 3.0f;
+                arc(width-190, cy/2+120, f, f, 0, TWO_PI);     
+            } 
+
+
+            //waves
+            for(int i = (int)stageEdgeLeft ; i < stageEdgeRight ; i +=8)
             {
                 //float c = map(ab.get(i), -1, 1, 0, 255);
                 float c = map(i, 0, ab.size(), 0, 255);
                 stroke(c, 255, 255);
+                float f = lerpedBuffer[i] * halfH/3;
+                constrain(f,0,cx/2);
+                line(i, halfH-100+ f, i, halfH-100 - f);                    
+            }
+
+
+            //lasers
+            for(int i = 0; i<ab.size();i+=120)
+            { 
+                float c = map(i, 0, ab.size(), 0, 255);
+                stroke(c, 255, 255);
                 float f = lerpedBuffer[i] * halfH * 4.0f;
-                line(i, halfH + f, halfH - f, i);                    
+                line((cx/1.5f+((cx/7+cx/6)/2)-2),cx/2-80,random(0, cx),random(0 ,f-200));
+                line(((cx/1.5f*2)-((cx/7+cx/6)/2)+2),cx/2-80,random(cx, width),random(0 ,f-200));
             }
-            break;
-        case 2:
-            {
-                    float c = map(smoothedAmplitude, 0, 0.5f, 0, 255);
-                    background(0, 0, 0, 10);
-                    stroke(c, 255, 255);	
-                    float radius = map(smoothedAmplitude, 0, 0.1f, 50, 300);		
-                    int points = (int)map(mouseX, 0, 255, 3, 10);
-                    int sides = points * 2;
-                    float px = cx;
-                    float py = cy - radius; 
-                    for(int i = 0 ; i <= sides ; i ++)
-                    {
-                        float r = (i % 2 == 0) ? radius : radius / 2; 
-                        // float r = radius;
-                        float theta = map(i, 0, sides, 0, TWO_PI);
-                        float x = cx + sin(theta) * r;
-                        float y = cy - cos(theta) * r;
-                        
-                        //circle(x, y, 20);
-                        line(px, py, x, y);
-                        px = x;
-                        py = y;
-                    }
-            }
-        case 3:
-            background(0);
-            strokeWeight(2);
-            noFill();
-            float r = map(smoothedAmplitude, 0, 0.5f, 100, 2000);
-            float c = map(smoothedAmplitude, 0, 0.5f, 0, 255);
-            stroke(c, 255, 255);
-            circle(cx, cy, r);
-        case 4:
-        
-            background(0);
-            strokeWeight(2);
-            for(int i = 0 ; i < ab.size() ; i +=10)
-            {
-                //float c = map(ab.get(i), -1, 1, 0, 255);
-                float cc = map(i, 0, ab.size(), 0, 255);
-                stroke(cc, 255, 255);
-                float f = lerpedBuffer[i] * halfH * 4.0f;
-                line(i, halfH + f, i, halfH - f);
-                fill(cc);
-                circle(i, halfH + f, 5);                    
-                circle(i, halfH - f, 5);                    
-            }
-            break;
 
-        }
-        
-
-
-        
-        // Other examples we made in the class
-        /*
-        stroke(255);
-        fill(100, 255, 255);        
-        
-        circle(width / 2, halfH, lerpedA * 100);
-        circle(100, y, 50);
-        y += random(-10, 10);
-        smoothedY = lerp(smoothedY, y, 0.1f);        
-        circle(200, smoothedY, 50);
-        */
+        } 
 
     }        
 }
