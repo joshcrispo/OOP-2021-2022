@@ -17,6 +17,9 @@ public class Audio1 extends PApplet
     int count = 0;
     boolean dance = false;
     
+    
+    int last = 0;
+    int m = 0;
     int mode = 0;
 
     float[] lerpedBuffer;
@@ -62,6 +65,10 @@ public class Audio1 extends PApplet
     {
         background(0);
         float halfH = height / 2;
+        int m = millis();
+        m = millis()-last;
+
+        float secondsToY = map(m/10, 0, ab.size(),0,465);
         
         // Calculate sum and average of the samples
         // Also lerp each element of buffer;
@@ -188,8 +195,8 @@ public class Audio1 extends PApplet
             endShape();
             
             
-
-
+            textSize(20);
+            text(m, cx,cy+100);
             //speakers
             //speaker left
             rectMode(CORNER);
@@ -313,6 +320,22 @@ public class Audio1 extends PApplet
                 line(((cx/1.5f*2)-((cx/7+cx/6)/2)+2),cx/2-80,random(cx, width),random(0 ,f-200));
             }
 
+            //scanning eye
+            if(millis() > last+20400){
+                last = millis();
+            }
+                if(m < 10200)
+                {
+                    for(int i = 0; i<ab.size();i+=20)
+                    { 
+                        stroke(255, 255, 255);
+                        line(cx,cy/3+45,i,secondsToY);
+                    }
+                }
+                else
+                {   
+                }
+            
         } 
 
     }        
