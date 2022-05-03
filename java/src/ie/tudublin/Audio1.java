@@ -21,7 +21,7 @@ public class Audio1 extends PApplet
 
     float[] lerpedBuffer;
     float y = 0;
-
+    
     public void keyPressed() {
 		if (key >= '0' && key <= '9') {
 			mode = key - '0';
@@ -57,24 +57,19 @@ public class Audio1 extends PApplet
         lerpedBuffer = new float[width];
     }
 
-    float off = 0;
 
     public void draw()
     {
-        //background(0);
+        background(0);
         float halfH = height / 2;
-        float average = 0;
-        float sum = 0;
-        off += 1;
+        
         // Calculate sum and average of the samples
         // Also lerp each element of buffer;
         for(int i = 0 ; i < ab.size() ; i ++)
         {
-            sum += abs(ab.get(i));
             lerpedBuffer[i] = lerp(lerpedBuffer[i], ab.get(i), 0.05f);
         }
-        average= sum / (float) ab.size();
-        
+
         float cx = width / 2;
         float cy = height / 2;
         float stageEdgeLeft = cx/2;
@@ -86,6 +81,7 @@ public class Audio1 extends PApplet
         case 0: 
             background(0);
             stroke(255);
+
             //rectangle stage 
             rectMode(CENTER);
             rect(cx, cy-100,cx+10, cx/4); 
@@ -158,6 +154,9 @@ public class Audio1 extends PApplet
 
             //triangle eye
             triangle(cx,cy/3,cx+50,cy/2,cx-50,cy/2);
+            line(cx,cy/3+24,cx,cy/3+32);
+            line(cx-8,cy/3+32 ,cx-10,cy/3+26);
+            line(cx+8,cy/3+32 ,cx+10,cy/3+26);
             arc(cx, cy/3+45, cx/12, cx/20, 0, TWO_PI); 
             arc(cx, cy/3+45, cx/60, cx/36, 0, TWO_PI); 
             //bowtie

@@ -44,6 +44,9 @@ public class Star
         this.absMag = absMag;
     }
 
+    public Star(float random, float random2, float random3) {
+    }
+
     public boolean isHab() {
         return hab;
     }
