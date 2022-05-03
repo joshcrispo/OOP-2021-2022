@@ -1,7 +1,5 @@
 package ie.tudublin;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import ddf.minim.AudioBuffer;
 import ddf.minim.AudioInput;
 import ddf.minim.AudioPlayer;
@@ -321,6 +319,7 @@ public class Audio1 extends PApplet
             }
 
             //scanning eye
+            //timer every 10 second interval
             if(millis() > last+20400){
                 last = millis();
             }
